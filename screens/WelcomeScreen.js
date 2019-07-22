@@ -172,7 +172,7 @@ class FirstScreen extends Component {
   };
 
   _loadAnimationAsync = async () => {
-    let result = await require("../assets/animations/location-new.json");
+    let result = await require("../assets/animations/onboard.json");
     // .then(data => {
     //   return data.json();
     // })
@@ -213,8 +213,7 @@ class FirstScreen extends Component {
             }}
           >
             <Text style={{fontFamily: 'Heading', fontSize:20, textAlign: 'center', color: Colors.primary}}>
-              With precise location enabled, we know exactly where you are to
-              provide the service you love
+             Welcome and can't wait for you to start riding with us. As a Partner, you are the focus of this business. Explore
             </Text>
           </View>
         </Row>
@@ -260,7 +259,7 @@ class SecondScreen extends Component {
   };
 
   _loadAnimationAsync = async () => {
-    let result = await require("../assets/animations/car.json");
+    let result = await require("../assets/animations/location-make.json");
     // .then(data => {
     //   return data.json();
     // })
@@ -291,7 +290,7 @@ class SecondScreen extends Component {
             }}
           >
             <Text style={{fontFamily: 'Heading', fontSize:20, textAlign: 'center', color: Colors.primary}} >
-             Get a cab with ease throughout the city, ride with us wherever you go
+             Find passengers with ease using precise location technology
             </Text>
           </View>
         </Row>
@@ -335,7 +334,7 @@ class ThirdScreen extends Component {
   };
 
   _loadAnimationAsync = async () => {
-    let result = await require("../assets/animations/credit.json");
+    let result = await require("../assets/animations/money-make.json");
     // .then(data => {
     //   return data.json();
     // })
@@ -366,7 +365,7 @@ class ThirdScreen extends Component {
             }}
           >
             <Text style={{fontFamily: 'Heading', fontSize:20, textAlign: 'center', color: Colors.primary}} >
-            No need to carry cash around when your card is all you need
+           More rides means more money for you
             </Text>
           </View>
         </Row>
@@ -412,7 +411,7 @@ class FourthScreen extends Component {
   }
 
   _loadAnimationAsync = async () => {
-    let result = await require("../assets/animations/stars.json");
+    let result = await require("../assets/animations/reward-make.json");
     // .then(data => {
     //   return data.json();
     // })
@@ -443,7 +442,7 @@ class FourthScreen extends Component {
             }}
           >
             <Text style={{fontFamily: 'Heading', fontSize:20, textAlign: 'center', color: Colors.primary}} >
-            Rate and get rated on each ride and stand the chance of winning amazing prizes
+            Stand the chance of being awarded due to good ratings
             </Text>
           </View>
         </Row>
@@ -463,8 +462,8 @@ class FourthScreen extends Component {
           )}
         </Row>
         <Row size={1}>
-          <View flex={1} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 20}}>
-          <Button size="small" onPress={this.start}>
+          <View flex={1} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 40}}>
+          <Button size="large" onPress={this.start}>
             Start
           </Button>
           </View>

@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { DangerZone } from "expo";
 const { Lottie } = DangerZone;
+import AwesomeAlert from 'react-native-awesome-alerts';
+
 
 import CodeFiled from "react-native-confirmation-code-field";
 
@@ -26,7 +28,7 @@ import {
   Modal,
   Avatar, AvatarProps
 } from "react-native-ui-kitten";
-import { gotoAnotherPage } from "../utils/universalFunctions";
+import { gotoAnotherPage, makePostRequest } from "../utils/universalFunctions";
 
 
 export const CELL_SIZE = 40;
@@ -51,7 +53,8 @@ export default class AnimatedExample extends Component {
     timer: 60,
     timerUp: false,
     phone: this.props.navigation.getParam('phone'),
-    request: this.props.navigation.getParam('request')
+    request: this.props.navigation.getParam('request'),
+    showAlert: false
   }
   _animationsColor = [...new Array(codeLength)].map(
     () => new Animated.Value(0)
@@ -83,15 +86,45 @@ export default class AnimatedExample extends Component {
     }, 1000)
   }
 
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+ 
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+    gotoAnotherPage('Verify', this.props,{phone: this.state.phone,request: this.state.request })
+  };
+
   onFinishCheckingCode = code => {
-    if(code.length == 4){
-      
+    var self = this;
+
+    var data = {
+      id:self.state.request,
+      code:code,
+      phone:self.state.phone
     }
+    makePostRequest('https://ridebookingserver.herokuapp.com/api/auth/verify',data).then(r=>{
+      if(r.data.datausers){
+        gotoAnotherPage("Home", this.props, null);
+      }
+      if(r.data.data.result){
+       
+        gotoAnotherPage("Register", this.props, null);
+      }else{
+        self.showAlert();
+      }
+    }).catch(e=>{
+
+    })
 
     // Alert.alert("Confirmation Code", "Successful!", [{ text: "OK" }], {
     //   cancelable: true
     // });
-    gotoAnotherPage("Register", this.props, null);
+    
   };
 
   animateCell({ hasValue, index, isFocused }) {
@@ -146,12 +179,26 @@ export default class AnimatedExample extends Component {
   containerProps = { style: styles.inputWrapStyle };
 
   render() {
-    const {phone, request} = this.state;
+    const {phone, request, showAlert} = this.state;
     return (
       <Container>
         <StatusBar hidden />
         <Header transparent />
         <Grid>
+        <AwesomeAlert
+          show={showAlert}
+          showProgress={false}
+          title="Sorry"
+          message="Wrong code enterred"
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="Ok"
+          confirmButtonColor={Colors.primary}
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
           <Row>
             <View
             flex={1}
@@ -202,6 +249,7 @@ export default class AnimatedExample extends Component {
             </View>
           </Row>
         </Grid>
+        
       </Container>
     );
   }
